@@ -1,0 +1,38 @@
+h1 {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue";
+  text-align: center;
+  color: #333333;
+}
+.board {
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: 1px solid blue;
+}
+
+.row {
+  width: 100%;
+  overflow: auto;
+}
+
+.square {
+  float: left;
+  height: 40px;
+  width: 40px;
+  background: red;
+}
+
+.row > .square {
+}
+
+.row:nth-child(odd) > .square:nth-child(even) {
+  background: blue;
+}
+
+.row:nth-child(even) > .square:nth-child(odd) {
+  background: blue;
+}
+
