@@ -1,21 +1,40 @@
 window.App = window.App || {}
 
-var Snake = App.Snake = function (rows) {
+var Snake = App.Snake = function (size) {
   this.pos = [0, 0];
   this.length = 1;
-  this.body = [];
+  this.visited = [];
   this.delta = [1, 0];
-  this.bindKeys();
+  this._bindKeys();
   this.size = size;
 }
 
 Snake.prototype.advance = function () {
-  this.body.push(this.pos);
   this.pos[0] = this._wrapPos(this.pos[0], this.delta[0]);
   this.pos[1] = this._wrapPos(this.pos[1], this.delta[1]);
+  this.visited.push(this.pos.slice(0));
+  this._trimVisited();
 }
 
-Snake.prototype.bindKeys = function () {
+Snake.prototype.render = function () {
+  for (var i = this.length - 1; i >= 0; i--) {
+    this._renderPos(this.visited[i]);
+  }
+}
+
+Snake.prototype.extend = function () {
+  this.length += 1;
+}
+
+// Private
+
+Snake.prototype._renderPos = function (pos) {
+  var row = document.getElementById(pos[0]);
+  var square = row.getElementsByClassName("col-" + pos[1])[0];
+  square.classList.add("snake");
+}
+
+Snake.prototype._bindKeys = function () {
   window.onkeypress = function (e) {
     switch (e.keyCode) {
       case 104:
@@ -34,12 +53,6 @@ Snake.prototype.bindKeys = function () {
   }.bind(this);
 }
 
-Snake.prototype.render = function () {
-  var row = document.getElementById(this.pos[0]);
-  var square = row.getElementsByClassName("col-" + this.pos[1])[0];
-  square.classList.add("snake");
-}
-
 Snake.prototype._wrapPos = function (pos, delta) {
   if ((pos + delta) >= this.size) {
     return pos + delta - this.size;
@@ -50,3 +63,7 @@ Snake.prototype._wrapPos = function (pos, delta) {
   }
 }
 
+Snake.prototype._trimVisited = function () {
+  this.visited = this.visited.slice(this.visited.length - this.length, this.visited.length);
+  console.log(this.visited);
+}
