@@ -64,6 +64,6 @@ Snake.prototype._wrapPos = function (pos, delta) {
 }
 
 Snake.prototype._trimVisited = function () {
-  this.visited = this.visited.slice(this.visited.length - this.length, this.visited.length);
-  console.log(this.visited);
+  this.visited = this.visited.
+    slice(this.visited.length - this.length, this.visited.length);
 }
